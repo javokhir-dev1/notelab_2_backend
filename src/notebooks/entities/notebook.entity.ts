@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Note } from '../../notes/entities/note.entity';
 
 @Entity()
 export class Notebook {
@@ -6,11 +8,16 @@ export class Notebook {
     id: number;
 
     @Column()
-    user_id: number
-
-    @Column()
     title: string;
 
     @Column({ default: false })
     is_favorite: boolean;
+
+    @OneToMany(() => Note, (note) => note.notebook )
+    notes: Note[]
+
+    @ManyToOne(() => User, (user) => user.notebooks, {
+        onDelete: "CASCADE"
+    })
+    user: User
 }

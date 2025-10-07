@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Setting {
@@ -13,4 +14,7 @@ export class Setting {
 
     @Column({ default: 'en' })
     language: string;
+
+    @OneToOne(() => User, (user) => user.setting)
+    user: User
 }
